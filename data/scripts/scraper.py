@@ -63,7 +63,7 @@ IMD_BASE         = os.getenv("IMD_BASE_URL", "https://imdaws.imd.gov.in")
 DATA_GOV_API     = "https://api.data.gov.in/resource"
 CGWB_DATASET_ID  = "3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69"
 
-FETCH_INTERVAL   = int(os.getenv("FETCH_INTERVAL_SEC", 900))   # 15 minutes
+FETCH_INTERVAL = int(os.getenv("FETCH_INTERVAL_SEC", "900"))  # 15 minutes
 
 ALL_STATES = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -250,7 +250,7 @@ def fetch_water_levels_batch(
                     "district":      station.get("district"),
                     "timestamp":     pd.to_datetime(reading.get("timestamp")),
                     "water_level_m": float(reading.get("water_level", 0)),
-                    "data_quality":  reading.get("quality", "Good"),
+                    "data_quality_flag": reading.get("quality", "G"),
                 })
 
         df = pd.DataFrame(rows)

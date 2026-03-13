@@ -303,7 +303,7 @@ def clean_readings(df: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     return df, report
 
 
-def _detect_anomalies(df: pd.DataFrame) -> pd.DataFrame:
+def detect_anomalies(df: pd.DataFrame) -> pd.DataFrame:
     """
     Flag statistical anomalies per station using rolling Z-score.
     Anomaly = Z-score > 3σ over a 7-day window (672 readings at 15-min interval).
