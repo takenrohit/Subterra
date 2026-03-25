@@ -17,3 +17,7 @@ htmlcov/
 .DS_Store
 Thumbs.dbnode_modules/
 frontend/node_modules/
+
+# Scraper Data
+data/
+*.csv
