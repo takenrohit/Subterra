@@ -96,30 +96,37 @@ function IndiaMap({ stations, onSelect, selected }) {
       </defs>
       <rect width="400" height="420" fill="url(#mapBg)" rx="12" />
       <path
-        d="M123 49
-           L145 38 L182 34 L220 38 L252 48 L287 66 L313 94
-           L332 126 L350 143 L359 171 L352 198 L337 223
-           L322 248 L328 273 L346 294 L350 326 L339 357
-           L321 376 L301 394 L287 407 L271 394 L256 367
-           L244 342 L229 317 L214 292 L203 262 L189 248
-           L173 259 L153 286 L132 281 L120 252 L108 220
-           L95 196 L83 169 L76 143 L83 120 L95 102
-           L107 84 L117 65 Z"
+        d="M163 26
+           L183 36 L199 32 L211 41 L208 53 L220 62 L236 71
+           L257 92 L282 99 L307 110 L324 133 L342 160
+           L349 189 L342 219 L331 246 L339 275 L357 294
+           L362 324 L350 353 L327 380 L300 403 L286 396
+           L277 378 L261 352 L251 333 L239 312 L226 291
+           L214 265 L203 246 L191 241 L179 251 L166 274
+           L151 286 L136 278 L128 260 L120 243 L109 226
+           L97 207 L89 181 L94 160 L106 138 L114 117
+           L128 96 L143 79 L156 61 L165 44 Z"
         fill="url(#indiaFill)"
         stroke="#1d4670"
         strokeWidth="2.2"
         opacity="0.95"
       />
       <path
-        d="M317 109 L332 100 L348 103 L357 114 L353 126 L338 130 L324 123 Z"
+        d="M248 133
+           L264 124 L281 127 L295 137 L308 147 L321 154
+           L333 150 L343 154 L349 164 L344 173 L331 175
+           L318 171 L305 166 L291 163 L278 160 L265 154
+           L255 145 Z"
         fill="url(#indiaFill)"
         stroke="#1d4670"
         strokeWidth="1.8"
         opacity="0.9"
       />
-      <circle cx="308" cy="351" r="2.2" fill="#1d4670" opacity="0.7" />
-      <circle cx="312" cy="365" r="2" fill="#1d4670" opacity="0.65" />
-      <circle cx="316" cy="378" r="1.7" fill="#1d4670" opacity="0.6" />
+      <path d="M247 146 L255 149 L261 151" fill="none" stroke="#1d4670" strokeWidth="1.5" opacity="0.65" />
+      <circle cx="288" cy="372" r="2.2" fill="#1d4670" opacity="0.72" />
+      <circle cx="292" cy="384" r="1.9" fill="#1d4670" opacity="0.66" />
+      <circle cx="296" cy="396" r="1.6" fill="#1d4670" opacity="0.6" />
+      <circle cx="300" cy="406" r="1.4" fill="#1d4670" opacity="0.54" />
       {[0.25,0.5,0.75].map(t => (<React.Fragment key={t}><line x1={30+t*340} y1="20" x2={30+t*340} y2="400" stroke="#0c2a45" strokeWidth="1" strokeDasharray="3,6" /><line x1="30" y1={20+t*380} x2="370" y2={20+t*380} stroke="#0c2a45" strokeWidth="1" strokeDasharray="3,6" /></React.Fragment>))}
       {stations.map(s => <StationDot key={s.station_id} station={s} onClick={onSelect} selected={selected?.station_id === s.station_id} />)}
       {Object.entries(STATUS).filter(([k]) => k !== 'unknown').map(([key,val],i) => (<g key={key} transform={`translate(15,${320+i*18})`}><circle cx="6" cy="6" r="4" fill={val.color} /><text x="14" y="10" fill="#8ab4d4" fontSize="9" fontFamily="'DM Mono',monospace">{val.label}</text></g>))}
