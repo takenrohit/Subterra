@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import './App.css';
 import { Task1Detail, Task2Detail, Task3Detail } from './TaskDetail';
 import StateRanking from './StateRanking.js';
-import IndiaMapShape from './IndiaMapShape';
+import indiaOutline from './assets/India_outline.svg';
 
 const API_BASE = (process.env.REACT_APP_API_URL || '').replace(/\/$/, '');
 const API = `${API_BASE}/api`;
@@ -90,13 +90,9 @@ function IndiaMap({ stations, onSelect, selected }) {
       <defs>
         <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur" /><feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
         <radialGradient id="mapBg" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#0a2040" /><stop offset="100%" stopColor="#050d1a" /></radialGradient>
-        <linearGradient id="indiaFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#102b4a" stopOpacity="0.55" />
-          <stop offset="100%" stopColor="#071222" stopOpacity="0.95" />
-        </linearGradient>
       </defs>
       <rect width="666.66669" height="777.33331" fill="url(#mapBg)" rx="12" />
-      <IndiaMapShape />
+      <image href={indiaOutline} x="0" y="0" width="666.66669" height="777.33331" preserveAspectRatio="xMidYMid meet" />
       {[0.25,0.5,0.75].map(t => (
         <React.Fragment key={t}>
           <line x1={48 + t * 560} y1="28" x2={48 + t * 560} y2="748" stroke="#0c2a45" strokeWidth="1.4" strokeDasharray="4,10" />
