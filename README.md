@@ -12,7 +12,7 @@
 
 **A full-stack groundwater intelligence platform for live-source ingestion, analytics, and a resilient demo fallback when upstream public APIs are unavailable.**
 
-[🚀 Live Demo](#) · [📖 Docs](./docs/) · [🐛 Report Bug](.github/ISSUE_TEMPLATE/bug_report.md) · [✨ Request Feature](.github/ISSUE_TEMPLATE/feature_request.md)
+[🚀 Live Demo](https://foss-project-beryl.vercel.app) · [🔌 Live API](https://foss-project.onrender.com/docs) · [📖 Docs](./docs/) · [🐛 Report Bug](.github/ISSUE_TEMPLATE/bug_report.md) · [✨ Request Feature](.github/ISSUE_TEMPLATE/feature_request.md)
 
 </div>
 
@@ -166,6 +166,21 @@ For hackathon reliability, SubTerra supports two runtime behaviors:
 
 The UI will explicitly show when fallback demo data is active.
 
+## 🌐 Deployments
+
+- Frontend: `https://foss-project-beryl.vercel.app`
+- Backend API: `https://foss-project.onrender.com`
+- API docs: `https://foss-project.onrender.com/docs`
+
+Current hosted demo notes:
+
+- The hosted app uses `demo_fallback` data mode for reliability.
+- Backend is deployed on Render.
+- Frontend is deployed on Vercel.
+- Production data is stored in Supabase PostgreSQL.
+- A one-time scraper seed was run against Supabase to populate demo data.
+- The local `docker compose` stack remains the recommended and most reliable end-to-end demo path.
+
 ### Option 1 — Docker (Recommended)
 
 ```bash
@@ -181,6 +196,8 @@ docker compose up --build
 ```
 
 Wait for the first scraper run to finish, then open `http://localhost:3000` in your browser.
+
+This remains the primary fallback/demo method if hosted deployment is slow or unavailable during judging.
 
 You can watch ingestion progress with:
 
@@ -234,6 +251,8 @@ Backend runs at `http://localhost:8000`
 API docs at `http://localhost:8000/docs`
 
 #### Backend on Render
+
+Hosted deployment is optional. For the most reliable hackathon demo, prefer the Docker Compose flow above and treat cloud deployment as a bonus path.
 ```bash
 # from the repo root
 # Render can use the included render.yaml blueprint, or you can create a Web Service manually
@@ -251,7 +270,7 @@ Required environment variables:
 - `APP_ENV=production`
 - `DEBUG=false`
 - `SECRET_KEY=<strong-random-secret>`
-- `DATABASE_URL=<your-render-postgres-external-url>`
+- `DATABASE_URL=<your-supabase-postgres-url>`
 - `ALLOWED_ORIGINS=https://your-frontend.vercel.app`
 
 Optional environment variables:
@@ -264,6 +283,46 @@ Notes:
 - `ALLOWED_ORIGINS` can now be either a JSON array or a comma-separated string.
 - The app attempts TimescaleDB setup on startup, but safely falls back to plain PostgreSQL if the extension is unavailable.
 - After deploy, your API base will be `https://<your-render-service>.onrender.com`.
+- For Supabase-backed deploys, the working connection used in production is the session-pooler style URL.
+
+#### Frontend on Vercel
+
+Recommended Vercel settings:
+
+- Framework preset: `Create React App`
+- Root directory: `frontend`
+- Build command: `npm run build`
+- Output directory: `build`
+- Environment variable: `REACT_APP_API_URL=https://<your-render-service>.onrender.com`
+
+#### Scraper / Production Seeding
+
+The hosted backend does not ingest data by itself. In local Docker this is handled by the dedicated `scraper` service in [docker-compose.yml](./docker-compose.yml). In hosted environments you should run the scraper separately against the same database.
+
+Recommended one-time seed command for hackathon/demo reliability:
+
+```bash
+python scripts/scraper.py --once --source sample
+```
+
+This command:
+
+- creates the schema if needed
+- writes station master data
+- writes sample groundwater readings
+- writes sample rainfall data
+
+If you deploy the scraper on Render, use:
+
+- Root directory: `data`
+- Dockerfile: `data/Dockerfile.scraper`
+- Docker command:
+
+```bash
+python scripts/scraper.py --once --source sample
+```
+
+Note: Render will mark that one-time scraper web service as failed after it exits, but that is expected if the seed completed successfully.
 
 #### Frontend Setup
 ```bash
@@ -342,6 +401,9 @@ Full data documentation: [docs/data-sources.md](./docs/data-sources.md)
 - [Docker](https://docker.com/) — containerization
 - [GitHub Actions](https://github.com/features/actions) — CI/CD
 - [Docker Compose](https://docs.docker.com/compose/) — local orchestration
+- [Render](https://render.com/) — hosted backend/API
+- [Vercel](https://vercel.com/) — hosted frontend
+- [Supabase](https://supabase.com/) — hosted PostgreSQL
 
 ---
 
